@@ -1,4 +1,4 @@
-continue = false
+ continue = false
 MAX_RANGE = 100
 $high_score_name = nil
 $high_score = 10000
@@ -35,10 +35,10 @@ def check_number(number_guessed)
         else
             puts "You Win"
             $game_is_over = true
-            refresh_high_score(guess_count)
+            refresh_high_score($guess_count)
         end
         
-        puts  "Amount Of Guesses So far:  #{guess_count}"
+        puts  "Amount Of Guesses So far:  #{$guess_count}"
     
     else
         
@@ -53,14 +53,14 @@ begin
     $game_is_over = false
 
     begin
-        puts number_to_guess.to_s
+        puts $number_to_guess
         puts "Enter A Number To Guess between 1 - #{MAX_RANGE}"
         userInput = gets.chomp
         number_guessed = userInput.to_i
         check_number(number_guessed)
-    end while !game_is_over
+    end while !$game_is_over
 
-    puts "The Current High Score is #{guess_count} number of guesses"
+    puts "The Current High Score is #{$guess_count} number of guesses"
     puts "Would You Like To Continue? (type y to continue)"
     userInput = gets.chomp
     if(userInput.initial_character.upcase == 'Y')
