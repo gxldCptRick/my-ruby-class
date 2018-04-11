@@ -1,7 +1,8 @@
+$FILE_NAME = "notAVirus.txt"
 continue = false
-MAX_RANGE = 100
+MAX_RANGE = 1000
 $high_score_name = nil
-$high_score = 10000
+$high_score = 100000
 $game_is_over = nil
 $guess_count = 0
 
@@ -10,6 +11,66 @@ class String
         self[0,1]
     end
 
+end
+
+class HiScore
+#scores organized like so [[score, name], [score,name]] 
+    attr_accessor :scores
+    
+    def initialize
+        :scores = []
+        self.setup_score_board
+    end
+
+    def saveScores
+        File.open($FILE_NAME, 'w') do |file|
+        
+            @scores.each do |score|
+            
+                file.puts "#{score[0]}, #{score[1]}"
+
+            end
+
+        end
+    end
+
+    def updateScores(newScore)
+        
+        if(@scores.length < 5)
+            @scores.push(newScore)
+            @scores.sort{|first, second| first[0] <=> second[0]};
+        else
+            @scores.each do |score|
+                if(newScore[0] > score[0])
+                    @scores.pop(@scores.index(score))
+                    @scores.push(newScore)
+                    @scores.sort {|first, second| first[0] <=> second[0] }
+                    break
+                end
+            end
+        end
+
+    end
+
+    def printScores
+        puts "High Scores".center(10)
+        puts "-" * 30
+        @scores.each do |value| 
+            puts "#{value[0]} - #{value[1]}" 
+        end
+    end
+
+    def setup_score_board
+        if(File.file?($FILE_NAME))
+            File.open($FILE_NAME, 'r') do |file| 
+                file.each_line do  |list|
+                    values = line.split(",")
+                    values[0] = values[0].to_i
+                    @scores.push(values)
+                end
+            end
+        end
+    end
 end
 
 def refresh_high_score(current_score)
@@ -69,4 +130,5 @@ begin
     else
         continue = false
     end
+    
 end while continue
