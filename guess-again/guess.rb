@@ -1,4 +1,4 @@
-$FILE_NAME = "notAVirus.txt"
+$FILE_NAME = "notAVirus.csv"
 $SCORE_INDEX = 0
 $NAME_INDEX = 1
 
